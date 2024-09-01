@@ -3,7 +3,7 @@ import "./ModelPopup.css";
 import { useFormik } from 'formik';
 import axios from 'axios'; // Ensure axios is installed or use your preferred HTTP client
 import api, { setAuthToken } from '../../axiosServices';
-const InterviewM = ({ postId,jobSeekerId,hrId,setShowModal, token, applicantId }) => {
+const InterviewM = ({ postId, jobSeekerId, hrId, setShowModal, token, applicantId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,9 +28,9 @@ const InterviewM = ({ postId,jobSeekerId,hrId,setShowModal, token, applicantId }
       } else {
         setError('');
         setLoading(true);
-        console.log("hello",postId,jobSeekerId,hrId, values.interviewDate, values.notes)
+        console.log("hello", postId, jobSeekerId, hrId, values.interviewDate, values.notes)
         try {
-          const response = await api.post('/schedule-interview', { postId,jobSeekerId,hrId,interviewDate: values.interviewDate,notes: values.notes});
+          const response = await api.post('/schedule-interview', { postId, jobSeekerId, hrId, interviewDate: values.interviewDate, notes: values.notes });
 
           console.log('Interview scheduled successfully:', response.data);
           setShowModal(false); // Close the modal after success
@@ -56,7 +56,7 @@ const InterviewM = ({ postId,jobSeekerId,hrId,setShowModal, token, applicantId }
             <div className="input-box">
               <label htmlFor="interviewDate">Interview Date</label>
               <input
-                type="date"
+                type="datetime-local"
                 name="interviewDate"
                 required
                 onChange={formik.handleChange}

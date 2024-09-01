@@ -47,6 +47,10 @@ const MainSection = () => {
   const handleSearch = (event) => {
     setSearchQuery(event.target.value.toLowerCase());
   };
+  const handleClick = () => {
+    window.location.href = 'http://localhost:3030/auth'; // Replace with your backend URL
+    
+  };
 
   // Filter posts based on search query
   const filteredPosts = posts.filter((post) =>
@@ -76,6 +80,9 @@ const MainSection = () => {
             <button className="add-btn" onClick={() => setShowModal(true)}>
               <IoMdAdd size="20" color="#ffffff" /> Add Applicant {/* Optional button depending on your need */}
             </button>
+            <button onClick={handleClick}>
+      Connect to Google Calendar
+    </button>
           </div>
           <div className="employees">
             {filteredPosts.map((post) => (
