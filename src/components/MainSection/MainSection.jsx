@@ -23,21 +23,31 @@ const MainSection = () => {
       setUserId(userId);
       if (userId) {
         const response = await api.get(`/retrieve-token`, { params: { userId } });
-        const tokenFromBackend = response.data.token; 
-        setAuthToken(tokenFromBackend); // Set token in Axios instance
+        console.log("id", response)
+        const  tokenFromBackend = response.data.token.headers.Authorization; 
+        console.log('Type of tokenFromBackend:', tokenFromBackend);
+
         setToken(tokenFromBackend);
 
-        const fetchApplicants = async () => {
+        const fetchApplicants = async (hi) => {
+          
           try {
-            const response = await api.get('/applicants', { params: { userId } });
-            console.log("the response", response.data)
+            console.log('tokent from backend is ready ', typeof hi)
+            const response = await api.get('/applicants', {
+              headers: {
+                authorization: `${hi}`,
+              },
+              params: { userId },
+            });
+            console.log("the response", response.data);
             setPosts(response.data); // Set posts with their applicants
+            console.log("the response", posts);
           } catch (error) {
             console.error('Error fetching applicants:', error);
           }
         };
 
-        fetchApplicants();
+        fetchApplicants(tokenFromBackend);
       }
     }
     fetchToken();
@@ -77,15 +87,13 @@ const MainSection = () => {
               />
               <BiSearch size={20} />
             </div>
-            <button className="add-btn" onClick={() => setShowModal(true)}>
-              <IoMdAdd size="20" color="#ffffff" /> Add Applicant {/* Optional button depending on your need */}
-            </button>
-            <button onClick={handleClick}>
+            
+            <button className="add-btn" onClick={handleClick}>
       Connect to Google Calendar
     </button>
           </div>
           <div className="employees">
-            {filteredPosts.map((post) => (
+            {posts.map((post) => (
               <div key={post._id} className="post">
                 {/* Post Content and Job Type */}
                 <div className="post-details">

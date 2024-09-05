@@ -4,11 +4,12 @@ import axios from 'axios'; // Ensure you have axios or your preferred HTTP clien
 import api, { setAuthToken } from '../../../axiosServices'; 
 import InterviewM from "../../ModelPopup/InterviewM";
 
-const Card = ({postId,hrId ,  token, status, empData, handleReRender }) => {
+const Card = ({postId,hrId ,  token, status: initialStatus, empData, handleReRender }) => {
   const { name, mail, avatar } = empData;
   const [dropDown, setDropdown] = useState(false);
   const [applicantsId, setApplicatsId] = useState();
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [status, setStatus] = useState(initialStatus);
 
   useEffect(() => {
     setApplicatsId(empData.profile.user_id);
@@ -37,6 +38,8 @@ const Card = ({postId,hrId ,  token, status, empData, handleReRender }) => {
         applicantsId,
         newStatus
       });
+      setStatus(newStatus);
+      console.log("newstatus",status);
       return response.data;
     } catch (error) {
       console.error('Error updating status:', error);
